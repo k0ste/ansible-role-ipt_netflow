@@ -1,0 +1,4 @@
+---
+ipt_netflow_module_conf: 'ipt_NETFLOW.conf'
+ipt_netflow_modules_load: '/etc/modules-load.d'
+ipt_netflow_modprobe_dest: '/etc/modprobe.d'

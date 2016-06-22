@@ -1,0 +1,9 @@
+## {{ hostvars[inventory_hostname]['ipt_netflow_module_conf'] }}
+# {{ ansible_managed }}
+# Do not edit manually
+
+{% if ipt_netflow is defined %}
+{% for k,v in ipt_netflow.items() %}
+options ipt_NETFLOW {{ k + '=' + v }}
+{% endfor %}
+{% endif %}

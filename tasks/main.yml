@@ -1,0 +1,35 @@
+---
+- name: Set facts
+  set_fact:
+    source_for_copy: "{{ lookup('lines', 'ls {{ role_path }}/files/', wantlist=True) }}"
+- name: Add the OS specific varibles
+  include_vars: "{{ hostvars[inventory_hostname]['ansible_os_family'] + '.yml' }}"
+- name: Raise error
+  fail: msg="Service manager is not systemd. Modules-load.d is required."
+  when: "hostvars[inventory_hostname]['ansible_service_mgr'] != 'systemd'"
+- name: Make work directories
+  file:
+    path: "{{ item }}"
+    state: "directory"
+    owner: "root"
+    group: "root"
+    mode: "755"
+  with_items:
+    - "{{ hostvars[inventory_hostname]['ipt_netflow_modules_load'] }}"
+    - "{{ hostvars[inventory_hostname]['ipt_netflow_modprobe_dest'] }}"
+- name: Deploy module configuration
+  template:
+    src: "netflow.j2"
+    dest: "{{ hostvars[inventory_hostname]['ipt_netflow_modprobe_dest'] + '/' + hostvars[inventory_hostname]['ipt_netflow_module_conf'] }}"
+    group: "root"
+    owner: "root"
+    mode: "0644"
+- name: Provide modules-load.d configuration
+  copy:
+    src: "{{ item }}"
+    dest: "{{ hostvars[inventory_hostname]['ipt_netflow_modules_load'] + '/' + item }}"
+    force: "yes"
+    owner: "root"
+    group: "root"
+    mode: "644"
+  with_items: "{{ vars['source_for_copy'] }}"
