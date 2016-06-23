@@ -2,7 +2,7 @@
 - name: Set facts
   set_fact:
     source_for_copy: "{{ lookup('lines', 'ls {{ role_path }}/files/', wantlist=True) }}"
-- name: Add the OS specific varibles
+- name: Add the OS specific variables
   include_vars: "{{ hostvars[inventory_hostname]['ansible_os_family'] + '.yml' }}"
 - name: Raise error
   fail: msg="Service manager is not systemd. Modules-load.d is required."
