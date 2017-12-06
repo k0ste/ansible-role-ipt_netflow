@@ -1,0 +1,14 @@
+{{ '## ' + 'ipt_NETFLOW.conf' }}
+{{ '# ' + ansible_managed }}
+{{ '# ' + 'Do not edit manually' }}
+
+{% for k,v in hostvars[inventory_hostname]['ipt_netflow'].items() %}
+{% if k is defined and (v is defined and v != '') %}
+{% if k in ['destination', 'natevents', 'sampler', 'inactive_timeout',
+            'active_timeout', 'exportcpu', 'debug', 'sndbuf', 'protocol',
+            'refresh_rate', 'timeout_rate', 'scan_min', 'hashsize', 'maxflows',
+            'aggregation', 'snmp_rules_buf', 'promisc', 'engine_id'] %}
+{{ 'options ipt_NETFLOW ' ~ k ~ '=' ~ v }}
+{% endif %}
+{% endif %}
+{% endfor %}

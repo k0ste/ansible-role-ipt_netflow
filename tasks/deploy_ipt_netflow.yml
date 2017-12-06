@@ -1,0 +1,16 @@
+---
+- name: ipt_netflow | Deploy module configuration
+  template:
+    src: "ipt_netflow.j2"
+    dest: "{{ hostvars[inventory_hostname]['ipt_netflow_modprobe_dest'] ~ '/' ~ 'ipt_NETFLOW.conf' }}"
+    group: "root"
+    owner: "root"
+    mode: "0644"
+- name: ipt_netflow | Deploy modules-load.d configuration
+  template:
+    src: "modules_load.j2"
+    dest: "{{ hostvars[inventory_hostname]['ipt_netflow_modules_load'] ~ '/' ~ '50-ipt_NETFLOW.conf' }}"
+    group: "root"
+    owner: "root"
+    mode: "0644"
+  notify: "Reload systemd-modules-load"

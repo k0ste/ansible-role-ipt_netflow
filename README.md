@@ -3,32 +3,33 @@ ansible-role-ipt_netflow
 
 Role for deploy [ipt_netflow](//github.com/aabc/ipt-netflow) Linux module.
 
-Ansible versions
---------------------
-Role is adapted for Ansible 2.0, should work on 1.9.
-
-Requirements for usage
------------------------------------
-
-* GNU/Linux distro with systemd for modules-load.d property work;
-* ipt_NETFLOW module;
-
-Extra
-----------
-
-The role support array of module options. Options is not validate and pass
-as-is. All possible options, which receives by module depend of build. Read
+The role support array of module options. All possible options, which receives
+by module depend of build. Option keys are validate by the template, for all
+possible options consult with
 [README of ipt_NETFLOW](//github.com/aabc/ipt-netflow/blob/master/README).
 
 Role provide order of load modules, because all conntrack modules should load
 before ipt_NETFLOW. Modules load to kernel at boot via
-[modules.load.d](//www.freedesktop.org/software/systemd/man/modules-load.d.html)
+[modules.load.d](//freedesktop.org/software/systemd/man/modules-load.d.html).
+
+Requirements
+---------------
+
+* Ansible 2.2;
+* GNU/Linux distro with systemd for modules-load.d property work;
+* ipt_NETFLOW module;
 
 Example configuration
 -------------------------
 
 ```yaml
 ---
+# Install ipt_netflow package or not.
+ipt_netflow_install_package: 'true'
+# Reload or not systemd-modules-load service. This will insert not loaded
+# modules to the kernel. This is not affected on already loaded modules.
+ipt_netflow_modules_reload: 'true'
+
 ipt_netflow:
   protocol: '5'
   destination: '127.0.0.1:2055'

@@ -1,0 +1,8 @@
+---
+- name: Reload systemd-modules-load
+  systemd:
+    name: "systemd-modules-load"
+    state: "restarted"
+  when:
+  - "hostvars[inventory_hostname]['ipt_netflow_modules_reload'] is defined"
+  - "hostvars[inventory_hostname]['ipt_netflow_modules_reload'] == 'true'"
