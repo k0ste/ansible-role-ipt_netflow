@@ -1,10 +1,10 @@
 ---
-- include: pre_requisite.yml
-- include: packages.yml
+- include_tasks: pre_requisite.yml
+- include_tasks: packages.yml
   when:
   - "hostvars[inventory_hostname]['ipt_netflow_install_package'] is defined"
   - "hostvars[inventory_hostname]['ipt_netflow_install_package'] != ''"
-- include: deploy_ipt_netflow.yml
+- include_tasks: deploy_ipt_netflow.yml
   when:
   - "hostvars[inventory_hostname]['ipt_netflow'] is defined"
   - "hostvars[inventory_hostname]['ipt_netflow'] != ''"
