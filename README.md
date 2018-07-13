@@ -13,7 +13,7 @@ before ipt_NETFLOW. Modules load to kernel at boot via
 
 ## Requirements
 
-* Ansible 2.4;
+* Ansible 2.5+;
 * GNU/Linux distro with `systemd` for modules-load.d property work;
 * `ipt_NETFLOW` module;
 

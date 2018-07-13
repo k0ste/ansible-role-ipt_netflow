@@ -1,10 +1,12 @@
 ---
-- assert:
+- name: ipt_netflow | Assert that system manager is systemd
+  assert:
     that:
     - "hostvars[inventory_hostname]['ansible_service_mgr'] == 'systemd'"
     msg: "System manager is not systemd."
 - name: ipt_netflow | Add the OS specific varibles
-  include_vars: "{{ hostvars[inventory_hostname]['ansible_os_family'] + '.yml' }}"
+  include_vars: "{{
+    hostvars[inventory_hostname]['ansible_os_family'] + '.yml' }}"
 - name: ipt_netflow | Create catalogs
   file:
     path: "{{ item }}"
@@ -12,7 +14,7 @@
     owner: "root"
     group: "root"
     mode: "755"
-  with_items:
+  loop:
   - "{{ hostvars[inventory_hostname]['ipt_netflow_modules_load'] }}"
   - "{{ hostvars[inventory_hostname]['ipt_netflow_modprobe_dest'] }}"
   when:

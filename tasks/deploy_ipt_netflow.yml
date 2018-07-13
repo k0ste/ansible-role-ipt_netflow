@@ -3,7 +3,7 @@
   template:
     src: "ipt_netflow.j2"
     dest: "{{ hostvars[inventory_hostname]['ipt_netflow_modprobe_dest'] + '/' +
-              'ipt_NETFLOW.conf' }}"
+      'ipt_NETFLOW.conf' }}"
     group: "root"
     owner: "root"
     mode: "0644"
@@ -11,8 +11,9 @@
   template:
     src: "modules_load.j2"
     dest: "{{ hostvars[inventory_hostname]['ipt_netflow_modules_load'] + '/' +
-              '50-ipt_NETFLOW.conf' }}"
+      '50-ipt_NETFLOW.conf' }}"
     group: "root"
     owner: "root"
     mode: "0644"
-  notify: "Reload systemd-modules-load"
+  notify:
+  - "Reload systemd-modules-load"
